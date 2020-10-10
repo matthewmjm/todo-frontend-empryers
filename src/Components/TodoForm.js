@@ -57,6 +57,12 @@ class TodoForm extends Component{
         ) : null
     }
 
+    showCloseButton = () => {
+        return this.props.todo
+        ? <button className="close-button" onClick={this.props.handleToggle}>CLOSE FORM</button>
+        : null
+    }
+
     render(){
         const {title, content, urgent, done} = this.state
         return(
@@ -75,7 +81,7 @@ class TodoForm extends Component{
                     value={content} 
                     onChange={this.handleChange} />
                 <div className="input-group">
-                <label>Urgent</label>
+                <label>Urgent</label>  
                 <input 
                     type="checkbox" 
                     name="urgent" 
@@ -84,6 +90,7 @@ class TodoForm extends Component{
                 </div>
                 {this.showDoneCheckbox()}       
                 <input type="submit" />
+                {this.showCloseButton()}
             </form>
         )
     }

@@ -54,3 +54,9 @@ body {
   display: flex;
   justify-content: center;
 }
+
+.close-button {
+  background-color: rgb(225, 51, 51);
+  color: white;
+  font-weight: bold;
+}
