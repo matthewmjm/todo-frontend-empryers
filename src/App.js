@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import './App.css';
-import TodoContainer from './Components/TodoContainer'
-import TodoForm from './Components/TodoForm'
-const todosUrl = 'http://localhost:4000/todos'
+import TodoContainer from './components/TodoContainer'
+import TodoForm from './components/TodoForm'
+const todosUrl = 'http://localhost:4000/todos/'
 
 
 class App extends Component {
@@ -34,13 +34,27 @@ class App extends Component {
     })
   }
 
+  updateTodo = (updatedTodo) => {
+    let todos = this.state.todos.map(todo => todo.id === updatedTodo.id ? updatedTodo : todo)
+
+    this.setState({ todos })
+
+    fetch(todosUrl + updatedTodo.id, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({todo: updatedTodo})
+    })
+  }
+
   deleteTodo = (id) => {
     let filtered = this.state.todos.filter(todo => todo.id !== id)
     this.setState({
       todos: filtered
     })
 
-    fetch(todosUrl + "/" + id, {method: "DELETE"} )
+    fetch(todosUrl + id, {method: "DELETE"} )
 
   }
 
@@ -49,8 +63,9 @@ class App extends Component {
     return(
       <div className="App">
         <h1>Todo App</h1>
-        <TodoForm addTodo={this.addTodo} />
-        <TodoContainer deleteTodo={this.deleteTodo} todos={this.state.todos}/>
+        {/* <TodoForm addTodo={this.addTodo} /> */}
+        <TodoForm submitAction={this.addTodo} />
+        <TodoContainer deleteTodo={this.deleteTodo} updateTodo={this.updateTodo} todos={this.state.todos}/>
       </div>
     );
   }
